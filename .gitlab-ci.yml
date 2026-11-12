@@ -1,0 +1,19 @@
+# GitLab equivalent of .github/workflows/ci.yml, kept in step with it.
+stages:
+  - test
+  - scan
+
+default:
+  image: golang:1.22
+
+test:
+  stage: test
+  script:
+    - go vet ./...
+    - go test ./...
+
+scan:
+  stage: scan
+  script:
+    - go install golang.org/x/vuln/cmd/govulncheck@latest
+    - govulncheck ./...
